@@ -15,22 +15,65 @@ datasource db {
 // updatedAt DateTime @updatedAt
 
 model User {
-  id            Int      @id @default(autoincrement())
-  firstName     String
-  lastName      String
-  email         String   @unique
-  password_hash String
-  profile       Profile  @relation(fields: [profileId], references: [id])
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  profileId     Int      @unique
+  id              Int      @id @default(autoincrement())
+  firstName       String
+  lastName        String
+  email           String   @unique
+  password_hash   String
+  profile         Profile  @relation(fields: [profileId], references: [id])
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  profileId       Int      @unique
 }
 
 model Profile {
-  id              Int      @id @default(autoincrement())
-  age             Int?
-  profileImageUrl String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  user            User?
+  id               Int      @id @default(autoincrement())
+  age              Int?
+  profileImageUrl  String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  user             User?
 }
+
+model Recipe {
+  id               Int     @id @default(autoincrement())
+  name             String
+  prepTime         String
+  createdAt        DateTime
+  updatedAt        DateTime
+  cookingTime      Int
+  servings         Int
+}
+
+model Ingredients {
+  id               Int      @id @default(autoincrement())
+  name             String
+  quantity         Int
+  created_at       DateTime 
+  updated_at       DateTime 
+}
+
+model Recipe_Ingredients {
+  id               Int  @id @default(autoincrement())
+  recipe_id        Int
+  ingredient_id    Int
+  //connect to recipe and ingredients
+}
+
+model Instructions {
+  id               Int  @id @default(autoincrement())
+  step_number      Int
+  Instruction      String
+  created_at       DateTime
+  updated_at       DateTime
+  // connect instructions to recipe
+}
+
+model Cook_Book {
+  id               Int   @id @default(autoincrement())
+  name             String
+  created_at       DateTime
+  updated_at       DateTime
+  // add recipes and shared with
+}
+
