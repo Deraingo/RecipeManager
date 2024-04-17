@@ -24,6 +24,8 @@ model User {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
   profileId       Int      @unique
+  recipes         Recipe[]
+  sharedCookBooks SharedCookBook[]
 }
 
 model Profile {
@@ -43,37 +45,53 @@ model Recipe {
   updatedAt        DateTime
   cookingTime      Int
   servings         Int
+  userId           Int
+  user             User     @relation(fields: [userId], references: [id])
+  recipeIngredients Recipe_Ingredients[]
+  instructions     Instructions[]
 }
 
 model Ingredients {
   id               Int      @id @default(autoincrement())
   name             String
   quantity         Int
-  created_at       DateTime 
-  updated_at       DateTime 
+  createdAt        DateTime 
+  updatedAt        DateTime 
+  recipeIngredients Recipe_Ingredients[]
 }
 
 model Recipe_Ingredients {
   id               Int  @id @default(autoincrement())
-  recipe_id        Int
-  ingredient_id    Int
-  //connect to recipe and ingredients
+  recipeId         Int
+  ingredientId     Int
+  recipe           Recipe @relation(fields: [recipeId], references: [id])
+  ingredient       Ingredients @relation(fields: [ingredientId], references: [id])
 }
 
 model Instructions {
   id               Int  @id @default(autoincrement())
-  step_number      Int
-  Instruction      String
-  created_at       DateTime
-  updated_at       DateTime
-  // connect instructions to recipe
+  stepNumber       Int
+  instruction      String
+  createdAt        DateTime
+  updatedAt        DateTime
+  recipeId         Int
+  recipe           Recipe @relation(fields: [recipeId], references: [id])
 }
 
 model Cook_Book {
   id               Int   @id @default(autoincrement())
   name             String
-  created_at       DateTime
-  updated_at       DateTime
-  // add recipes and shared with
+  createdAt        DateTime
+  updatedAt        DateTime
+  shared           Boolean
+  sharedWith       SharedCookBook[]
+}
+
+model SharedCookBook {
+  id               Int   @id @default(autoincrement())
+  sharedWithUserId Int
+  sharedWithUser   User  @relation(fields: [sharedWithUserId], references: [id])
+  cookBookId       Int
+  cookBook         Cook_Book @relation(fields: [cookBookId], references: [id])
 }
 
