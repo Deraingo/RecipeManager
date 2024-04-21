@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 function App() {
   const authToken = useSelector(state => state.application.authToken)
   return (
-    <div>
+    <div className="header">
       <nav className="my-nav"><h2>App Name</h2>{
         !authToken && (
           <>

@@ -12,7 +12,6 @@ export const Home = () => {
   const api = useApi();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {count, add, subtract} = useCounter();
 
   async function getUser() {
     const {user} = await api.get("/users/me");
@@ -28,15 +27,18 @@ export const Home = () => {
   }
 
   return (
-    <div>
-      <h1>I am on the home page!</h1>
+    <div className="container">
       <div>{user && <h1>Welcome, {user.firstName}</h1>}</div>
-      <button onClick={logout}>Logout</button>
-      <h1>{count}</h1>
       <div>
-        <button onClick={add}>Increment</button>
-        <button>Decrement</button>
+        {/* Map of recipes or cookbooks */}
       </div>
+      <div>
+        {/* on click send to view recipe page */}
+        <button className="action-button">View Recipes</button>
+        <button className="action-button">Cookbooks</button>
+        <button className="action-button">Add Recipe</button>
+      </div>
+        <button className="action-button" onClick={logout}>Logout</button>
     </div>
   )
 }
