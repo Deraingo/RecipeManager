@@ -43,7 +43,7 @@ model Recipe {
   prepTime         String
   createdAt        DateTime
   updatedAt        DateTime
-  cookingTime      Int
+  cookingTime      String
   servings         Int
   userId           Int
   user             User     @relation(fields: [userId], references: [id])
