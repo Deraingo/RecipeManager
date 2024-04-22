@@ -9,6 +9,7 @@ import { Home } from './Home.jsx';
 import { Login } from './Login.jsx';
 import { SignUp } from './SignUp.jsx';
 import { Api, ApiContext } from './utils/api.js';
+import { AddRecipe } from './AddRecipe.jsx';
 
 const router = createHashRouter([
   {
@@ -27,6 +28,10 @@ const router = createHashRouter([
         path: "/sign_up",
         element: <SignUp />
       },
+      {
+        path: "/add_recipe",
+        element: <AddRecipe />
+      }
     ]
   }
 ])
