@@ -5,16 +5,16 @@ import { connect } from "http2";
 export type CreateRecipePayload = {
   userId: number,
   name: string,
-  prepTime: string,
-  cookingTime: string,
+  prepTime: number,
+  cookingTime: number,
   servings: number,
 }
 
 export type UpdateRecipePayload = {
     userId: number,
     name: string,
-    prepTime: string,
-    cookingTime: string,
+    prepTime: number,
+    cookingTime: number,
     servings: number,
     created_at: Date,
 }

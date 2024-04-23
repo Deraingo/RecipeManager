@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setAuthToken } from "./store/application_slice";
 import { useCounter } from "./utils/use_counter";
 import { requireLogin } from "./utils/require_login";
-
+import { Header } from './Header.jsx';
+import { Outlet } from "react-router-dom";
 export const Home = () => {
   requireLogin();
   const [user, setUser] = useState(null);
@@ -39,20 +40,11 @@ export const Home = () => {
 
   return (
     <div className="container">
-      <div>{user && <h1>Welcome, {user.firstName}</h1>}</div>
+      <Header user={user} logout={logout} />
       <div>
         {/* Map of recipes or cookbooks */}
       </div>
-      <div>
-        {/* on click send to view recipe page */}
-        <button className="action-button">View Recipes</button>
-        <button className="action-button">Cookbooks</button>
-        <Link className="action-button" to="/add_recipe">
-          Add Recipe
-        </Link>
-      </div>
-        <button className="action-button" onClick={logout}>Logout</button>
-        <button onClick={console.log(recipes)}>Testing</button>
+      <Outlet /> {/* This will render the child routes */}
     </div>
   )
 }

@@ -40,10 +40,10 @@ model Profile {
 model Recipe {
   id               Int     @id @default(autoincrement())
   name             String
-  prepTime         String
+  prepTime         Float
   createdAt        DateTime
   updatedAt        DateTime
-  cookingTime      String
+  cookingTime      Float
   servings         Int
   userId           Int
   user             User     @relation(fields: [userId], references: [id])
