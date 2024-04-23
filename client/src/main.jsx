@@ -18,7 +18,13 @@ const router = createHashRouter([
     children: [
       {
         path: "",
-        element: <Home />
+        element: <Home />,
+        children:[
+          {
+            path: "/add_recipe",
+            element: <AddRecipe />
+          }
+        ]
       },
       {
         path: "/login",
@@ -28,10 +34,7 @@ const router = createHashRouter([
         path: "/sign_up",
         element: <SignUp />
       },
-      {
-        path: "/add_recipe",
-        element: <AddRecipe />
-      }
+      
     ]
   }
 ])

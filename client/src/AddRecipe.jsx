@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom";
 export const AddRecipe = () =>{
     const [user, setUser] = useState(null);
     const [name, setName] = useState("");
-    const [prepTime, setPrepTime] = useState("");
-    const [cookingTime, setCookingTime] = useState("");
+    const [prepTime, setPrepTime] = useState(0);
+    const [cookingTime, setCookingTime] = useState(0);
     const [servings, setServings] = useState(0);
     const api = useApi();
     const dispatch = useDispatch();
@@ -61,17 +61,17 @@ export const AddRecipe = () =>{
                 />
                 <input
                     placeholder="prepTime"
-                    type="text"
+                    type="number"
                     value={prepTime}
                     required
-                    onChange={(e) => setPrepTime(e.target.value)}
+                    onChange={(e) => setPrepTime(parseFloat(e.target.value))}
                 />
                 <input
                     placeholder="cookingTime"
-                    type="text"
+                    type="number"
                     value={cookingTime}
                     required
-                    onChange={(e) => setCookingTime(e.target.value)}
+                    onChange={(e) => setCookingTime(parseFloat(e.target.value))}
                 />
                 <input
                     placeholder="Serving #"
