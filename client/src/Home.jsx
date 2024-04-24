@@ -40,11 +40,13 @@ export const Home = () => {
 
   return (
     <div className="container">
-      <Header user={user} logout={logout} />
+    <Header user={user} logout={logout} />
+    <Outlet /> {/* This will render the child routes */}
+    <div className="main-body">
       <div>
         {/* Map of recipes or cookbooks */}
       </div>
-      <Outlet /> {/* This will render the child routes */}
     </div>
+  </div>
   )
 }

@@ -18,7 +18,8 @@ export const SignUp = () => {
       email,
       password,
       firstName,
-      lastName
+      lastName,
+      // profileImageUrl: "/client/profile/profileImg/default.png"
     });
     dispatch(setAuthToken(res.token));
 
