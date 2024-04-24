@@ -10,6 +10,9 @@ import { Login } from './Login.jsx';
 import { SignUp } from './SignUp.jsx';
 import { Api, ApiContext } from './utils/api.js';
 import { AddRecipe } from './AddRecipe.jsx';
+import { Profile } from './Profile.jsx';
+import { ChangePassword } from './ChangePassword.jsx';
+import { ChangeProfilePicture } from './ChangeProfilePhoto.jsx';
 
 const router = createHashRouter([
   {
@@ -23,6 +26,20 @@ const router = createHashRouter([
           {
             path: "/add_recipe",
             element: <AddRecipe />
+          },
+          {
+            path: "/profile",
+            element: <Profile />,
+            children: [
+              {
+                path: "change_password",
+                element: <ChangePassword />
+              },
+              {
+                path: "change_profile_picture",
+                element: <ChangeProfilePicture />
+              }
+            ]
           }
         ]
       },
@@ -37,7 +54,7 @@ const router = createHashRouter([
       
     ]
   }
-])
+]);
 
 
 const Main = () => {

@@ -13,10 +13,25 @@ import { buildHomeController } from "./server/controllers/home_controller";
 import { UsersRepository } from "./server/repositories/users_respository";
 import { RecipeRepository } from "./server/repositories/recipe_repository";
 import { buildRecipeController } from "./server/controllers/recipe_controller";
+import {EditProfileController} from "./server/controllers/profile_controller"; 
+import { ProfileRepository } from "./server/repositories/profile_repository";
+import multer from 'multer';
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads/');
+  },
+  filename: function (req, file, cb) {
+    cb(null, new Date().toISOString() + file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
 
 const db = new PrismaClient();
 const usersRepository = UsersRepository.getInstance(db);
 const recipeRepository = RecipeRepository.getInstance(db);
+const profileRepository = ProfileRepository.getInstance(db);
 
 dotenv.config();
 
@@ -51,6 +66,9 @@ app.use("/", buildHomeController());
 app.use("/users", buildUsersController(usersRepository));
 app.use("/sessions", buildSessionsController(db));
 app.use("/recipes", buildRecipeController(recipeRepository));
+app.use("/users", buildUsersController(usersRepository));
+app.use("/users/:id", EditProfileController(profileRepository, upload));
+app.use("/change_password", EditProfileController(profileRepository, upload));
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Listening on port ${process.env.PORT || 3000}...`);
