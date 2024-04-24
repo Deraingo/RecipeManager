@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 function App() {
   const authToken = useSelector(state => state.application.authToken)
   return (
-    <div className="header">
-      <nav className="my-nav"><h2>Cuisine Concierge</h2>{
+    <div className="main">
+      <nav className="my-nav">{
         !authToken && (
           <>
             <Link to="/sign_up">Create Account </Link>
@@ -13,7 +13,9 @@ function App() {
           </>
         )
       }</nav>
+      
       <Outlet />
+      
     </div>
   );
 }

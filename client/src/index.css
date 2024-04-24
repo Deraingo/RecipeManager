@@ -3,22 +3,30 @@
 }
 .action-button{
   padding: 10px;
-  background-color: #594545;
+  background-color: #B19470;
   color: white;
   text-decoration: none;
   margin: 10px;
   cursor: pointer;
 }
 .container{
+  margin-top: 15px;
   margin: auto;
+}
+.title{
+  color: white;
 }
 body{
   background-color: #FFF8EA;
-  margin: 10px;
 }
 .header{
-  margin: auto;
+  background-color: #B19470;
+  display: inline-flex;
+  width: 100%;
 }
 .action-button:hover {
-  background-color: #7f6e6e;
+  background-color: #76453B;
+}
+.main-body {
+  margin-top: 20px; /* Adjust this value as needed */
 }
