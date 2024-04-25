@@ -15,6 +15,8 @@ import { RecipeRepository } from "./server/repositories/recipe_repository";
 import { buildRecipeController } from "./server/controllers/recipe_controller";
 import {EditProfileController} from "./server/controllers/profile_controller"; 
 import { ProfileRepository } from "./server/repositories/profile_repository";
+import { CookBookRepository } from "./server/repositories/cookbook_repository";
+import {buildCookBookController} from "./server/controllers/cookbook_controller";
 import multer from 'multer';
 
 const storage = multer.diskStorage({
@@ -32,6 +34,7 @@ const db = new PrismaClient();
 const usersRepository = UsersRepository.getInstance(db);
 const recipeRepository = RecipeRepository.getInstance(db);
 const profileRepository = ProfileRepository.getInstance(db);
+const cookBookRepository = CookBookRepository.getInstance(db);
 
 dotenv.config();
 
@@ -69,6 +72,7 @@ app.use("/recipes", buildRecipeController(recipeRepository));
 app.use("/users", buildUsersController(usersRepository));
 app.use("/users/:id", EditProfileController(profileRepository, upload));
 app.use("/change_password", EditProfileController(profileRepository, upload));
+app.use("/create_cook_book", buildCookBookController(cookBookRepository));
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Listening on port ${process.env.PORT || 3000}...`);
