@@ -7,6 +7,7 @@ export const Header = ({ user, logout }) => (
     <Link className="action-button" to="cookbooks">Cookbooks</Link>
     <Link className="action-button" to="add_recipe">Add Recipe</Link>
     <Link className="action-button" to="profile">Profile</Link>
+    <Link className="action-button" to="create_cookbook">Create Cookbook</Link>
     <Link className="action-button" onClick={logout}>Logout</Link>
   </header>
 );

@@ -16,10 +16,8 @@ export const buildRecipeController = (recipeRepository: RecipeRepository) => {
             res.status(500).json({ error: "Failed to create recipe", message: error });
         }
     });
-    // Route for getting the currently logged-in user's reptiles
     router.get("/me", authMiddleware, async (req, res) => {
         try {
-        // Check if req.user exists before accessing its properties
         const userId = req.user?.id;
         if (userId === undefined) {
             res.status(400).json({ error: "User ID not provided in request" });

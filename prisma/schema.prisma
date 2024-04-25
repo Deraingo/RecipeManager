@@ -26,6 +26,7 @@ model User {
   profileId       Int      @unique
   recipes         Recipe[]
   sharedCookBooks SharedCookBook[]
+  cookBooks       Cook_Book[]
 }
 
 model Profile {
@@ -48,6 +49,7 @@ model Recipe {
   servings         Int
   userId           Int
   user             User     @relation(fields: [userId], references: [id])
+  cookBooks        Cook_Book[]
   recipeIngredients Recipe_Ingredients[]
   instructions     Instructions[]
 }
@@ -65,8 +67,10 @@ model Recipe_Ingredients {
   id               Int  @id @default(autoincrement())
   recipeId         Int
   ingredientId     Int
+  cookBookId       Int
   recipe           Recipe @relation(fields: [recipeId], references: [id])
   ingredient       Ingredients @relation(fields: [ingredientId], references: [id])
+  cookBook         Cook_Book @relation(fields: [cookBookId], references: [id])
 }
 
 model Instructions {
@@ -76,16 +80,23 @@ model Instructions {
   createdAt        DateTime
   updatedAt        DateTime
   recipeId         Int
+  cookBookId       Int
   recipe           Recipe @relation(fields: [recipeId], references: [id])
+  cookBook         Cook_Book @relation(fields: [cookBookId], references: [id])
 }
 
 model Cook_Book {
-  id               Int   @id @default(autoincrement())
+  id               Int      @id @default(autoincrement())
   name             String
   createdAt        DateTime
   updatedAt        DateTime
   shared           Boolean
   sharedWith       SharedCookBook[]
+  recipes          Recipe[]
+  userId           Int  
+  user             User     @relation(fields: [userId], references: [id])
+  recipeIngredients Recipe_Ingredients[]
+  instructions     Instructions[]
 }
 
 model SharedCookBook {

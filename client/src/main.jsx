@@ -13,6 +13,7 @@ import { AddRecipe } from './AddRecipe.jsx';
 import { Profile } from './Profile.jsx';
 import { ChangePassword } from './ChangePassword.jsx';
 import { ChangeProfilePicture } from './ChangeProfilePhoto.jsx';
+import { CreateCookBook } from './CreateCookBook.jsx';
 
 const router = createHashRouter([
   {
@@ -40,6 +41,10 @@ const router = createHashRouter([
                 element: <ChangeProfilePicture />
               }
             ]
+          },
+          {
+            path: "/create_cookbook",
+            element: <CreateCookBook />
           }
         ]
       },
