@@ -10,6 +10,7 @@ import { Login } from './Login.jsx';
 import { SignUp } from './SignUp.jsx';
 import { Api, ApiContext } from './utils/api.js';
 import { AddRecipe } from './AddRecipe.jsx';
+import { ViewRecipes } from './ViewRecipes.jsx'
 import { Profile } from './Profile.jsx';
 import { ChangePassword } from './ChangePassword.jsx';
 import { ChangeProfilePicture } from './ChangeProfilePhoto.jsx';
@@ -26,6 +27,10 @@ const router = createHashRouter([
           {
             path: "/add_recipe",
             element: <AddRecipe />
+          },
+          {
+            path: "/view_recipes",
+            element: <ViewRecipes />
           },
           {
             path: "/profile",
