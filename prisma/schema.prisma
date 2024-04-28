@@ -59,7 +59,6 @@ model Ingredients {
   name             String
   quantity         Int
   recipeId         Int
-  ingredientId     Int
   cookBookId       Int
   createdAt        DateTime 
   updatedAt        DateTime 
