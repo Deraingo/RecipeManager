@@ -50,7 +50,7 @@ model Recipe {
   userId           Int
   user             User     @relation(fields: [userId], references: [id])
   cookBooks        Cook_Book[]
-  recipeIngredients Recipe_Ingredients[]
+  ingredients      Ingredients[]
   instructions     Instructions[]
 }
 
@@ -58,21 +58,14 @@ model Ingredients {
   id               Int      @id @default(autoincrement())
   name             String
   quantity         Int
-  createdAt        DateTime 
-  updatedAt        DateTime 
-  recipeIngredients Recipe_Ingredients[]
-}
-
-model Recipe_Ingredients {
-  id               Int  @id @default(autoincrement())
   recipeId         Int
   ingredientId     Int
   cookBookId       Int
+  createdAt        DateTime 
+  updatedAt        DateTime 
   recipe           Recipe @relation(fields: [recipeId], references: [id])
-  ingredient       Ingredients @relation(fields: [ingredientId], references: [id])
   cookBook         Cook_Book @relation(fields: [cookBookId], references: [id])
 }
-
 model Instructions {
   id               Int  @id @default(autoincrement())
   stepNumber       Int
@@ -95,7 +88,7 @@ model Cook_Book {
   recipes          Recipe[]
   userId           Int  
   user             User     @relation(fields: [userId], references: [id])
-  recipeIngredients Recipe_Ingredients[]
+  ingredients      Ingredients[]
   instructions     Instructions[]
 }
 
