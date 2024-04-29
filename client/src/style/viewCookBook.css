@@ -1,0 +1,10 @@
+.cookbook-container{
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    padding-bottom: 30px;
+}
+.cookbook-card{
+    margin-bottom: 15px;
+}

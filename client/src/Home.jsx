@@ -39,7 +39,7 @@ export const Home = () => {
   }
 
   return (
-    <div className="container">
+    <div className="home-container">
     <Header user={user} logout={logout} />
     <Outlet /> {/* This will render the child routes */}
     <div className="main-body">

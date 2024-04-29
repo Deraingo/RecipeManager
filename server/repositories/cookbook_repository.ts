@@ -30,10 +30,10 @@ export class CookBookRepository {
         name: name,
         createdAt: currentTimestamp,
         updatedAt: currentTimestamp,
-        shared: false, // or true, depending on your logic
+        shared: false,
       }
     });
-  
+
     for (const recipeId of recipes) {
       await this.db.recipe.update({
         where: { id: recipeId },
@@ -44,7 +44,7 @@ export class CookBookRepository {
         },
       });
     }
-  
+
     for (const collaboratorId of collaborators) {
       await this.db.sharedCookBook.create({
         data: {
@@ -53,15 +53,56 @@ export class CookBookRepository {
         },
       });
     }
-  
+
     return cookBook;
   }
 
   async getCookBooksByUserId(userId: number): Promise<Cook_Book[]> {
     return this.db.cook_Book.findMany({
       where: {
-          id: userId,
+        userId: userId,
+      },
+      include: {
+        recipes: true,
       },
     });
+  }
+
+  async deleteCookBook(id: number) {
+    return this.db.cook_Book.delete({
+      where: {
+        id: id,
+      },
+    });
+  }
+
+
+
+  async getCookBookById(id: number): Promise<Cook_Book | null> {
+    return this.db.cook_Book.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        recipes: true,
+      },
+    });
+  }
+
+  async editCookBook(id: number, name: string, recipes: number[]): Promise<Cook_Book | null> {
+    const cookBook = await this.db.cook_Book.update({
+      where: { id: id },
+      data: {
+        name: name,
+        updatedAt: new Date(),
+        recipes: {
+          set: recipes.map(recipeId => ({ id: recipeId }))
+        }
+      },
+      include: {
+        recipes: true,
+      },
+    });
+    return cookBook;
   }
 }
