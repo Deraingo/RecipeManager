@@ -24,6 +24,10 @@ export const ViewRecipes = () => {
     async function getRecipes() {
         try {
           const { recipes } = await api.get("/recipes/me");
+          for (let recipe of recipes) {
+            const { ingredients } = await api.get(`/recipes/${recipe.id}/ingredients`);
+            recipe.ingredients = ingredients;
+          }
           setRecipes(recipes);
         } catch (error) {
           console.error("Error fetching recipes:", error);
@@ -34,18 +38,21 @@ export const ViewRecipes = () => {
             <div className="recipe-list">
                 <h1>Your Recipes:</h1>
                 <ul>
-                    {recipes.map((recipe) => (
-                        <li key={recipe.id}>
-                            <div className="recipe-item">
-                                <h3 className="recipe-header-border">{recipe.name}</h3>
-                                <p className="recipe-border">Preperation Time: {recipe.prepTime} hours</p>
-                                <p className="recipe-border">Cooking Time: {recipe.cookingTime} hours</p>
-                                <p className="recipe-border">Serves: {recipe.servings} people</p>
-                                <p className="recipe-border">Ingredients: {recipe.ingredients}</p>
-                                <p className="recipe-border">Instructions: {recipe.instructions} </p>
-                            </div>
-                        </li>
-                    ))}
+                {recipes.map((recipe) => (
+                    <li key={recipe.id}>
+                        <div className="recipe-item">
+                            <h3 className="recipe-header-border">{recipe.name}</h3>
+                            <p className="recipe-border">Preparation Time: {recipe.prepTime} hours</p>
+                            <p className="recipe-border">Cooking Time: {recipe.cookingTime} hours</p>
+                            <p className="recipe-border">Serves: {recipe.servings} people</p>
+                            <p className="recipe-border">Ingredients:</p>
+                                {recipe.ingredients.map((ingredient, index) => (
+                                    <p className="recipe-border-ingredients" key={index}>{ingredient.name}</p>
+                                ))}
+                            <p className="recipe-border">Instructions: {recipe.instructions} </p>
+                        </div>
+                    </li>
+                ))}
                 </ul>
             </div>
             <div>

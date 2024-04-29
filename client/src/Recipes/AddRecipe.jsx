@@ -34,14 +34,15 @@ export const AddRecipe = () => {
             if (res.token) {
                 dispatch(setAuthToken(res.token));
             }
+            for (const ingredient of ingredients) {
+                await api.post(`/recipes/${res.recipe.id}/ingredients`, {
+                    name: ingredient,
+                    quantity: 0 /* TODO: Make it so a user can add a quantity for each ingredient*/
+                });
+            }
             navigate("/");
         } catch (error) {
             console.error("Error creating recipe:", error);
-        }
-        try{
-          
-        } catch (error) {
-          console.error("Error creating ingredients: ", error);
         }
     }
 

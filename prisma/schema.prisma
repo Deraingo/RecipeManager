@@ -59,11 +59,11 @@ model Ingredients {
   name             String
   quantity         Int
   recipeId         Int
-  cookBookId       Int
+  cookBookId       Int?
   createdAt        DateTime 
   updatedAt        DateTime 
   recipe           Recipe @relation(fields: [recipeId], references: [id])
-  cookBook         Cook_Book @relation(fields: [cookBookId], references: [id])
+  cookBook         Cook_Book? @relation(fields: [cookBookId], references: [id])
 }
 model Instructions {
   id               Int  @id @default(autoincrement())

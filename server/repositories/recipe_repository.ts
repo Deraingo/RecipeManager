@@ -91,16 +91,17 @@ export class RecipeRepository {
     }
     async createIngredient({ recipeId, cookBookId, name, quantity}: CreateIngredientsPayload){
       const currentTimeStamp = new Date();
-      return this.db.ingredients.create({
-        data:{
-          recipe: { connect: { id: recipeId } },
-          cookBook: { connect: { id: cookBookId } },
-          name: name,
-          quantity: quantity,
-          createdAt: currentTimeStamp,
-          updatedAt: currentTimeStamp,
-        }
-      });
+      const data: any = {
+        recipe: { connect: { id: recipeId } },
+        name: name,
+        quantity: quantity,
+        createdAt: currentTimeStamp,
+        updatedAt: currentTimeStamp,
+      };
+      if (cookBookId) {
+        data.cookBook = { connect: { id: cookBookId } };
+      }
+      return this.db.ingredients.create({ data });
     }
     async getIngredientsByRecipeId(recipeId: number){
       return this.db.ingredients.findMany({
