@@ -59,7 +59,7 @@ export const SignUp = () => {
           onChange={e => setPassword(e.target.value)}
         />
 
-        <button>Create Account</button>
+        <button className="action-button">Create Account</button>
       </form>
     </div>
   )

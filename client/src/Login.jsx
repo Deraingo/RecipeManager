@@ -41,7 +41,7 @@ export const Login = () => {
           onChange={e => setPassword(e.target.value)}
         />
 
-        <button>Sign In</button>
+        <button className="action-button">Sign In</button>
       </form>
     </div>
   )
