@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
-import { useApi } from "./utils/use_api";
+import { useApi } from "../utils/use_api";
+import '../style/createCookBook.css'
 
 export const CreateCookBook = () => {
     const [user, setUser] = useState(null);
-    const [recipes, setRecipes] = useState([]); // Replace with your own recipe data
+    const [recipes, setRecipes] = useState([]);
     const [selectedRecipes, setSelectedRecipes] = useState([]);
     const [collaborators, setCollaborators] = useState([]);
-    const [email, setEmail] = useState(""); // For the collaborator email input
+    const [email, setEmail] = useState("");
     const [cookbookName, setCookbookName] = useState("");
     const api = useApi();
+
+    useEffect(() => {
+        getUser();
+        getRecipes();
+    }, []);
 
     const addRecipe = (recipe) => {
         setSelectedRecipes([...selectedRecipes, recipe]);
@@ -21,23 +27,17 @@ export const CreateCookBook = () => {
             console.error("Error fetching user:", error);
         }
     }
+    async function getRecipes() {
+        try {
+          const { recipes } = await api.get("/recipes/me");
+          setRecipes(recipes);
+        } catch (error) {
+          console.error("Error fetching recipes:", error);
+        }
+      }
 
-    useEffect(() => {
-        const fetchRecipes = async () => {
-            try {
-                const response = await api.get("/recipes/me");
-                setRecipes(response.data);
-            } catch (error) {
-                console.error("Error fetching recipes:", error);
-            }
-        };
 
-        fetchRecipes();
-    }, []);
 
-    useEffect(() => {
-        getUser();
-    }, []);
 
     const addCollaborator = async () => {
         try {
@@ -72,14 +72,20 @@ export const CreateCookBook = () => {
     };
 
     return (
-        <div>
+        <div className="container">
             <h1>Create Cookbook</h1>
             <input type="text" value={cookbookName} onChange={(e) => setCookbookName(e.target.value)} placeholder="Enter cookbook name" /> 
             <h2>Recipes</h2>
-            {recipes && recipes.map((recipe) => (
+            { recipes.map((recipe) => (
                 <div key={recipe.id}>
-                    <span>{recipe.name}</span>
-                    <button onClick={() => addRecipe(recipe)}>Add</button>
+                    <div className="recipe-name"><span>{recipe.name}</span></div>
+                    <button className="add-button" onClick={() => addRecipe(recipe)}>Add</button>
+                </div>
+            ))}
+            <h2>Added Recipes</h2>
+            { selectedRecipes.map((recipe, index) => (
+                <div key={index}>
+                    <span className="recipe-name">{recipe.name}</span>
                 </div>
             ))}
             <h2>Collaborators</h2>
@@ -89,8 +95,11 @@ export const CreateCookBook = () => {
                 </div>
             ))}
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter collaborator's email" />
-            <button onClick={addCollaborator}>Add Collaborator</button>
-            <button onClick={createCookBook}>Done</button>
+            <button onClick={addCollaborator} className="add-collaborator-button">Add Collaborator</button>
+            <div className="submit">
+                <button onClick={createCookBook} className="submit-button">Done</button>
+            </div>
+            
         </div>
     );
 };

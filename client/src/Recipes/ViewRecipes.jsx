@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useApi } from "./utils/use_api";
+import { useApi } from "../utils/use_api";
 import { useNavigate, Link } from "react-router-dom";
+import '../style/recipe.css'
 
 export const ViewRecipes = () => {
     const [user, setUser] = useState(null);
