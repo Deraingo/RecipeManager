@@ -11,15 +11,27 @@ export type CreateRecipePayload = {
 }
 
 export type UpdateRecipePayload = {
-    userId: number,
-    name: string,
-    prepTime: number,
-    cookingTime: number,
-    servings: number,
-    created_at: Date,
+  userId: number,
+  name: string,
+  prepTime: number,
+  cookingTime: number,
+  servings: number,
+  created_at: Date,
+}
+//TODO: add ingredients and instructions
+export type CreateIngredientsPayload = {
+  recipeId: number,
+  cookBookId: number,
+  name: string,
+  quantity: number
 }
 
-//TODO: add ingredients and instructions
+export type CreateInstructionsPayload = {
+  recipeId: number,
+  cookBookId: number,
+  stepNumber: number,
+  instruction: string
+}
 
 export class RecipeRepository {
     private db: PrismaClient
@@ -76,6 +88,29 @@ export class RecipeRepository {
             updatedAt: currentTimestamp,
           }
         });
+    }
+    async createIngredient({ recipeId, cookBookId, name, quantity}: CreateIngredientsPayload){
+      const currentTimeStamp = new Date();
+      const data: any = {
+        recipe: { connect: { id: recipeId } },
+        name: name,
+        quantity: quantity,
+        createdAt: currentTimeStamp,
+        updatedAt: currentTimeStamp,
+      };
+      if (cookBookId) {
+        data.cookBook = { connect: { id: cookBookId } };
+      }
+      return this.db.ingredients.create({ data });
+    }
+    async getIngredientsByRecipeId(recipeId: number){
+      return this.db.ingredients.findMany({
+        where:{
+          recipe: {
+            id: recipeId,
+          },
+        },
+      });
     }
     async getRecipesByUserId(userId: number): Promise<Recipe[]> {
         return this.db.recipe.findMany({

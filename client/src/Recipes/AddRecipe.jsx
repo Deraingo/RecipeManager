@@ -5,51 +5,69 @@ import { setAuthToken } from "../store/application_slice";
 import { useNavigate } from "react-router-dom";
 import '../style/recipe.css'
 
-export const AddRecipe = () =>{
+export const AddRecipe = () => {
     const [user, setUser] = useState(null);
     const [name, setName] = useState("");
     const [prepTime, setPrepTime] = useState(0);
     const [cookingTime, setCookingTime] = useState(0);
     const [servings, setServings] = useState(0);
+    const [ingredients, setIngredients] = useState([""]); // New state for ingredients
     const api = useApi();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-  
+
     useEffect(() => {
-      getUser();
+        getUser();
     }, []);
 
     async function createRecipe(e) {
         e.preventDefault();
         try {
-          const res = await api.post("/recipes", {
-            userId: user?.id, // Assuming the backend expects userId
-            name,
-            prepTime,
-            cookingTime,
-            servings
-          });
-          // Check if the response contains a token and dispatch it if necessary
-          if (res.token) {
-            dispatch(setAuthToken(res.token));
-          }
-          navigate("/");
+            const res = await api.post("/recipes", {
+                userId: user?.id,
+                name,
+                prepTime,
+                cookingTime,
+                servings,
+                ingredients // Include ingredients in the API call
+            });
+            if (res.token) {
+                dispatch(setAuthToken(res.token));
+            }
+            for (const ingredient of ingredients) {
+                await api.post(`/recipes/${res.recipe.id}/ingredients`, {
+                    name: ingredient,
+                    quantity: 0 /* TODO: Make it so a user can add a quantity for each ingredient*/
+                });
+            }
+            navigate("/");
         } catch (error) {
-          console.error("Error creating recipe:", error);
-          // Handle error (e.g., show error message to the user)
+            console.error("Error creating recipe:", error);
         }
     }
 
     async function getUser() {
         try {
-          const { user } = await api.get("/users/me");
-          setUser(user);
+            const { user } = await api.get("/users/me");
+            setUser(user);
         } catch (error) {
-          console.error("Error fetching user:", error);
-          // Handle error (e.g., show error message to the user)
+            console.error("Error fetching user:", error);
         }
     }
-    return(
+
+    // Function to handle changes in ingredients
+    const handleIngredientChange = (index, event) => {
+        const values = [...ingredients];
+        values[index] = event.target.value;
+        setIngredients(values);
+    };
+
+    // Function to handle adding more ingredient fields
+    const handleAddIngredient = () => {
+        setIngredients([...ingredients, ""]);
+    };
+
+    return (
         <div>
             <h2>Create Recipe</h2>
             <form className="create-recipe-form" onSubmit={createRecipe}>
@@ -61,14 +79,14 @@ export const AddRecipe = () =>{
                     onChange={(e) => setName(e.target.value)}
                 />
                 <input
-                    placeholder="prepTime"
+                    placeholder="Prep Time"
                     type="number"
                     value={prepTime}
                     required
                     onChange={(e) => setPrepTime(parseFloat(e.target.value))}
                 />
                 <input
-                    placeholder="cookingTime"
+                    placeholder="Cooking Time"
                     type="number"
                     value={cookingTime}
                     required
@@ -82,8 +100,21 @@ export const AddRecipe = () =>{
                     onChange={(e) => setServings(parseInt(e.target.value, 10))}
                 />
 
+                {/* Inputs for ingredients */}
+                {ingredients.map((ingredient, index) => (
+                    <input
+                        key={index}
+                        placeholder="Ingredient"
+                        type="text"
+                        value={ingredient}
+                        required
+                        onChange={(event) => handleIngredientChange(index, event)}
+                    />
+                ))}
+                <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
+
                 <button type="submit" className="action-button">Submit</button>
             </form>
         </div>
-    )
-}
+    );
+};
