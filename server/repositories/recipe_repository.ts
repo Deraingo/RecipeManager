@@ -106,9 +106,7 @@ export class RecipeRepository {
     async getIngredientsByRecipeId(recipeId: number){
       return this.db.ingredients.findMany({
         where:{
-          recipe: {
-            id: recipeId,
-          },
+          id: recipeId,
         },
       });
     }
