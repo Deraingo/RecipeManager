@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useApi } from "../utils/use_api.js";
+import '../style/editCookBook.css'
 import { useParams, useNavigate } from "react-router-dom";
 
 export const EditCookBook = () => {
@@ -16,21 +17,22 @@ export const EditCookBook = () => {
 
     useEffect(() => {
         getCookbook();
-        getOtherRecipes();
     }, [id]);
 
+    
     async function getCookbook() {
         try {
             const { cookBook } = await api.get(`/create_cook_book/${numericId}`);
             setCookbook(cookBook);
             setName(cookBook.name);
             setCurrentRecipes(cookBook.recipes);
+            getOtherRecipes(cookBook.recipes);
         } catch (error) {
             console.error("Error fetching cookbook:", error);
         }
     }
-
-    async function getOtherRecipes() {
+    
+    async function getOtherRecipes(currentRecipes) {
         try {
             const { recipes } = await api.get(`/recipes/me`);
             const currentRecipeIds = currentRecipes.map(recipe => recipe.id);
@@ -39,17 +41,19 @@ export const EditCookBook = () => {
             console.error("Error fetching other recipes:", error);
         }
     }
-
+    
     function handleAddRecipe(recipeId) {
-        setAddRecipes([...addRecipes, recipeId]);
-        setOtherRecipes(otherRecipes.filter(id => id !== recipeId));
-        setCurrentRecipes([...currentRecipes, recipeId]);
+        const recipeToAdd = otherRecipes.find(recipe => recipe.id === recipeId);
+        setAddRecipes([...addRecipes, recipeToAdd.id]);
+        setOtherRecipes(otherRecipes.filter(recipe => recipe.id !== recipeId));
+        setCurrentRecipes([...currentRecipes, recipeToAdd]);
     }
-
+    
     function handleRemoveRecipe(recipeId) {
-        setRemoveRecipes([...removeRecipes, recipeId]);
-        setCurrentRecipes(currentRecipes.filter(id => id !== recipeId));
-        setOtherRecipes([...otherRecipes, recipeId]);
+        const recipeToRemove = currentRecipes.find(recipe => recipe.id === recipeId);
+        setRemoveRecipes([...removeRecipes, recipeToRemove.id]);
+        setCurrentRecipes(currentRecipes.filter(recipe => recipe.id !== recipeId));
+        setOtherRecipes([...otherRecipes, recipeToRemove]);
     }
 
     async function handleSubmit(event) {
@@ -75,22 +79,22 @@ export const EditCookBook = () => {
                     <input type="text" value={name} onChange={e => setName(e.target.value)} />
                 </label>
                 <div>
-                    Current Recipes:
+                    <h2>Current Recipes:</h2>
                     {currentRecipes.map(recipe => (
-                        <div key={recipe.id}>
-                            {recipe.name} <button onClick={() => handleRemoveRecipe(recipe.id)}>Remove</button>
+                        <div className="current-recipes" key={recipe.id}>
+                            {recipe.name} <button className="add-button" onClick={() => handleRemoveRecipe(recipe.id)}>Remove</button>
                         </div>
                     ))}
                 </div>
                 <div>
-                    Other Recipes:
+                    <h2>Other Recipes:</h2>
                     {otherRecipes.map(recipe => (
-                        <div key={recipe.id}>
-                            {recipe.name} <button onClick={() => handleAddRecipe(recipe.id)}>Add</button>
+                        <div className="other-recipes" key={recipe.id}>
+                            {recipe.name} <button className="add-button" onClick={() => handleAddRecipe(recipe.id)}>Add</button>
                         </div>
                     ))}
                 </div>
-                <button type="submit">Save</button>
+                <button className="save-button" type="submit">Save</button>
             </form>
         </div>
     );

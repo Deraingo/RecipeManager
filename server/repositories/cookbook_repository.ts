@@ -89,14 +89,15 @@ export class CookBookRepository {
     });
   }
 
-  async editCookBook(id: number, name: string, recipes: number[]): Promise<Cook_Book | null> {
+  async editCookBook(id: number, name: string, addRecipes: number[], removeRecipes: number[]): Promise<Cook_Book | null> {
     const cookBook = await this.db.cook_Book.update({
       where: { id: id },
       data: {
         name: name,
         updatedAt: new Date(),
         recipes: {
-          set: recipes.map(recipeId => ({ id: recipeId }))
+          connect: addRecipes.map(recipeId => ({ id: recipeId })),
+          disconnect: removeRecipes.map(recipeId => ({ id: recipeId }))
         }
       },
       include: {

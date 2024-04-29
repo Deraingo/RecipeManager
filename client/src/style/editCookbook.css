@@ -1,0 +1,19 @@
+.current-recipes{
+    margin-bottom: 10px;
+}
+.other-recipes{
+    margin-bottom: 10px;
+}
+
+.save-button{
+    margin-left: 4px;
+    background-color: #B19470;
+    color: white;
+    text-decoration: none;
+    border: none;
+    padding: 3px;
+}
+
+.save-button:hover{
+    background-color: #76453B;
+}

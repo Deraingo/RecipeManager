@@ -95,4 +95,6 @@ a:hover {
 }
 .main-content{
   background-color: #F6F2ED;
+  min-height: 100%;
+  padding: 20px;
 }
