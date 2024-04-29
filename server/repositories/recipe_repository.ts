@@ -30,7 +30,7 @@ export type CreateInstructionsPayload = {
   recipeId: number,
   cookBookId: number,
   stepNumber: number,
-  instruction: string
+  instruction: string,
 }
 
 export class RecipeRepository {
@@ -105,6 +105,29 @@ export class RecipeRepository {
     }
     async getIngredientsByRecipeId(recipeId: number){
       return this.db.ingredients.findMany({
+        where:{
+          recipe: {
+            id: recipeId,
+          },
+        },
+      });
+    }
+    async createInstruction({ recipeId, cookBookId, stepNumber, instruction}: CreateInstructionsPayload){
+      const currentTimeStamp = new Date();
+      const data: any = {
+        recipe: { connect: { id: recipeId } },
+        stepNumber: stepNumber,
+        instruction: instruction,
+        createdAt: currentTimeStamp,
+        updatedAt: currentTimeStamp,
+      };
+      if (cookBookId) {
+        data.cookBook = { connect: { id: cookBookId } };
+      }
+      return this.db.instructions.create({ data });
+    }
+    async getInstructionsByRecipeId(recipeId: number){
+      return this.db.instructions.findMany({
         where:{
           recipe: {
             id: recipeId,

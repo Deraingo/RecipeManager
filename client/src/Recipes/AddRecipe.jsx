@@ -11,7 +11,8 @@ export const AddRecipe = () => {
     const [prepTime, setPrepTime] = useState(0);
     const [cookingTime, setCookingTime] = useState(0);
     const [servings, setServings] = useState(0);
-    const [ingredients, setIngredients] = useState([""]); // New state for ingredients
+    const [ingredients, setIngredients] = useState([""]);
+    const [instructions, setInstructions] = useState([""]);
     const api = useApi();
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -40,6 +41,12 @@ export const AddRecipe = () => {
                     quantity: 0 /* TODO: Make it so a user can add a quantity for each ingredient*/
                 });
             }
+            for (const instruction of instructions) {
+                await api.post(`/recipes/${res.recipe.id}/instructions`, {
+                    instruction: instruction,
+                    stepNumber: 0 /* TODO: Make it so a user can add a step number for each instruction*/
+                });
+            }
             navigate("/");
         } catch (error) {
             console.error("Error creating recipe:", error);
@@ -66,7 +73,16 @@ export const AddRecipe = () => {
     const handleAddIngredient = () => {
         setIngredients([...ingredients, ""]);
     };
+    const handleInstructionChange = (index, event) => {
+        const values = [...instructions];
+        values[index] = event.target.value;
+        setInstructions(values);
+    };
 
+    // Function to handle adding more instruction fields
+    const handleAddInstruction= () => {
+        setInstructions([...instructions, ""]);
+    };
     return (
         <div>
             <h2>Create Recipe</h2>
@@ -112,6 +128,19 @@ export const AddRecipe = () => {
                     />
                 ))}
                 <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
+
+                {/* Inputs for instructions */}
+                {instructions.map((instruction, index) => (
+                    <input
+                        key={index}
+                        placeholder="Instruction"
+                        type="text"
+                        value={instruction}
+                        required
+                        onChange={(event) => handleInstructionChange(index, event)}
+                    />
+                ))}
+                <button type="button" onClick={handleAddInstruction}>Add Instruction</button>
 
                 <button type="submit" className="action-button">Submit</button>
             </form>

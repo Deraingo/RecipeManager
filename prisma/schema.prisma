@@ -72,9 +72,9 @@ model Instructions {
   createdAt        DateTime
   updatedAt        DateTime
   recipeId         Int
-  cookBookId       Int
+  cookBookId       Int?
   recipe           Recipe @relation(fields: [recipeId], references: [id])
-  cookBook         Cook_Book @relation(fields: [cookBookId], references: [id])
+  cookBook         Cook_Book? @relation(fields: [cookBookId], references: [id])
 }
 
 model Cook_Book {

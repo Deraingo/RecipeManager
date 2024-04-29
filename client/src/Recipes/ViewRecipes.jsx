@@ -28,11 +28,15 @@ export const ViewRecipes = () => {
             const { ingredients } = await api.get(`/recipes/${recipe.id}/ingredients`);
             recipe.ingredients = ingredients;
           }
+          for (let recipe of recipes) {
+            const { instructions } = await api.get(`/recipes/${recipe.id}/instructions`);
+            recipe.instructions = instructions;
+          }
           setRecipes(recipes);
         } catch (error) {
           console.error("Error fetching recipes:", error);
         }
-      }
+    };
     return(
         <div className="container">
             <div className="recipe-list">
@@ -49,7 +53,11 @@ export const ViewRecipes = () => {
                                 {recipe.ingredients.map((ingredient, index) => (
                                     <p className="recipe-border-ingredients" key={index}>{ingredient.name}</p>
                                 ))}
-                            <p className="recipe-border">Instructions: {recipe.instructions} </p>
+                            <p className="recipe-border">Instructions:</p>
+                            {recipe.instructions.map((instruction, index) => (
+                                <p className="recipe-border-ingredients" key={index}>{instruction.instruction}</p>
+                            ))}
+
                         </div>
                     </li>
                 ))}
