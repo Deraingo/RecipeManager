@@ -49,7 +49,27 @@ export const buildRecipeController = (recipeRepository: RecipeRepository) => {
             res.json({ ingredients })
         } catch (error){
             console.error("Error fetching ingredients: ", error);
-            res.status(500).json({ error: "Failed to fetch schedules", message: error });
+            res.status(500).json({ error: "Failed to fetch instruction", message: error });
+        }
+    });
+    router.post("/:id/instructions", authMiddleware, async (req, res) => {
+        try {
+            const recipeId = Number(req.params.id);
+            const instructions = await recipeRepository.createInstruction({ recipeId, ...req.body });
+            res.json({ instructions });
+        } catch (error) {
+            console.error("Error creating instruction:", error);
+            res.status(500).json({ error: "Failed to create instruction", message: error });
+        }
+    });
+    router.get("/:id/instructions",authMiddleware, async (req, res) => {
+        try {
+            const recipeId = Number(req.params.id);
+            const instructions = await recipeRepository.getInstructionsByRecipeId(recipeId);
+            res.json({ instructions })
+        } catch (error){
+            console.error("Error fetching instructions: ", error);
+            res.status(500).json({ error: "Failed to fetch instructions", message: error });
         }
     });
     return router;
