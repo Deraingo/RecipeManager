@@ -3,6 +3,7 @@ import { useApi } from "../utils/use_api.js";
 import { Link } from "react-router-dom";
 import '../style/viewCookBook.css'
 import { useParams } from "react-router-dom";
+import { jsPDF } from "jspdf";
 
 export const ViewCookBook = () => {
     const api = useApi();
@@ -14,6 +15,34 @@ export const ViewCookBook = () => {
     useEffect(() => {
         getCookbook();
     }, [id]);
+
+    function downloadCookbook() {
+        const doc = new jsPDF();
+    
+        doc.setFontSize(22);
+        doc.text(cookBook.name, 10, 20);
+    
+        let y = 30;
+        cookBook.recipes.forEach((recipe, index) => {
+            doc.setFontSize(16);
+            doc.text(`Recipe ${index + 1}: ${recipe.name}`, 10, y);
+            y += 10;
+    
+            doc.setFontSize(12);
+            doc.text(`Preparation Time: ${recipe.prepTime} hours`, 10, y);
+            y += 10;
+            doc.text(`Cooking Time: ${recipe.cookingTime} hours`, 10, y);
+            y += 10;
+            doc.text(`Serves: ${recipe.servings} people`, 10, y);
+            y += 10;
+            doc.text(`Ingredients: ${recipe.ingredients}`, 10, y);
+            y += 10;
+            doc.text(`Instructions: ${recipe.instructions}`, 10, y);
+            y += 20; 
+        });
+    
+        doc.save(`${cookBook.name}.pdf`);
+    }
 
 
     async function getCookbook() {
@@ -47,6 +76,7 @@ export const ViewCookBook = () => {
                     </li>
                 ))}
             </ul>
+            <button className="add-button" onClick={downloadCookbook}>Download Cookbook</button>
         </div>
     );
 };
