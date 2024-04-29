@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { application, Router } from "express";
 import jwt from "jsonwebtoken";
 import { authMiddleware } from "../middleware/authentication";
 import { CookBookRepository } from "../repositories/cookbook_repository";
@@ -59,15 +59,15 @@ export const buildCookBookController = (cookBookRepository: CookBookRepository) 
 
   router.put("/:id", async (req, res) => {
     try {
-        const id = parseInt(req.params.id, 10);
-        const { name, recipes } = req.body;
-        const cookBook = await cookBookRepository.editCookBook(id, name, recipes);
-        res.json({ cookBook });
-    } catch (error) {
-        console.error("Error updating cookbook:", error);
-        res.status(500).json({ error: "Failed to update cookbook" });
-    }
-});
+      const id = parseInt(req.params.id, 10);
+      const { name, addRecipes, removeRecipes } = req.body;
+      const cookBook = await cookBookRepository.editCookBook(id, name, addRecipes, removeRecipes);
+      res.json({ cookBook });
+  } catch (error) {
+      console.error("Error updating cookbook:", error);
+      res.status(500).json({ error: "Failed to update cookbook" });
+  }
+  });
 
   return router;
 }
