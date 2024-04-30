@@ -24,38 +24,43 @@ export class CookBookRepository {
 
   async createCookBook({ userId, name, recipes, collaborators }: CreateCookBookPayload) {
     const currentTimestamp = new Date();
+    const shared = collaborators.length > 0;
     const cookBook = await this.db.cook_Book.create({
-      data: {
-        userId: userId,
-        name: name,
-        createdAt: currentTimestamp,
-        updatedAt: currentTimestamp,
-        shared: false,
-      }
+        data: {
+            userId: userId,
+            name: name,
+            createdAt: currentTimestamp,
+            updatedAt: currentTimestamp,
+            shared: shared,
+        }
     });
 
     for (const recipeId of recipes) {
-      await this.db.recipe.update({
-        where: { id: recipeId },
-        data: {
-          cookBooks: {
-            connect: { id: cookBook.id },
-          },
-        },
-      });
+        await this.db.recipe.update({
+            where: { id: recipeId },
+            data: {
+                cookBooks: {
+                    connect: { id: cookBook.id },
+                },
+            },
+        });
     }
 
     for (const collaboratorId of collaborators) {
-      await this.db.sharedCookBook.create({
-        data: {
-          sharedWithUserId: collaboratorId,
-          cookBookId: cookBook.id,
-        },
-      });
+        try {
+            await this.db.sharedCookBook.create({
+                data: {
+                    sharedWithUserId: collaboratorId,
+                    cookBookId: cookBook.id,
+                },
+            });
+        } catch (error) {
+            console.error(`Error adding collaborator with ID ${collaboratorId}:`, error);
+        }
     }
 
     return cookBook;
-  }
+}
 
   async getCookBooksByUserId(userId: number): Promise<Cook_Book[]> {
     return this.db.cook_Book.findMany({
