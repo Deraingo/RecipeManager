@@ -23,6 +23,24 @@ export const buildUsersController = (usersRepository: UsersRepository) => {
     res.json({ user: req.user });
   });
 
+  router.get("", async (req, res) => {
+    const email = req.query.email;
+    console.log(`Email parameter: ${email}`);
+    if (typeof email !== 'string') {
+      return res.status(400).json({ error: "Email query parameter must be a string" });
+    }
+    if (!email) {
+      return res.status(400).json({ error: "Email query parameter is required" });
+    }
+    try {
+      const user = await usersRepository.getUserByEmail(email);
+      return res.json({ user });
+    } catch (error) {
+      console.error(error);
+      return res.status(404).json({ error: "User not found" });
+    }
+  });
+
   return router;
 }
 

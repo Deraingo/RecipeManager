@@ -23,7 +23,7 @@ export class UsersRepository {
   }
 
 
-  async createUser({email, password, firstName, lastName}: CreateUserPayload) {
+  async createUser({ email, password, firstName, lastName }: CreateUserPayload) {
     return this.db.user.create({
       data: {
         email: email,
@@ -43,5 +43,19 @@ export class UsersRepository {
         id: id
       },
     });
+  }
+
+  async getUserByEmail(email: string) {
+    const user = await this.db.user.findUnique({
+      where: {
+        email: email
+      },
+    });
+
+    if (!user) {
+      throw new Error(`No user found with email: ${email}`);
+    }
+
+    return user;
   }
 }

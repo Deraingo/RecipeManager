@@ -69,7 +69,6 @@ app.use("/", buildHomeController());
 app.use("/users", buildUsersController(usersRepository));
 app.use("/sessions", buildSessionsController(db));
 app.use("/recipes", buildRecipeController(recipeRepository));
-app.use("/users", buildUsersController(usersRepository));
 app.use("/users/:id", EditProfileController(profileRepository, upload));
 app.use("/change_password", EditProfileController(profileRepository, upload));
 app.use("/create_cook_book", buildCookBookController(cookBookRepository));
