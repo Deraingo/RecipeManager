@@ -30,7 +30,7 @@ export const AddRecipe = () => {
                 prepTime,
                 cookingTime,
                 servings,
-                ingredients // Include ingredients in the API call
+                ingredients
             });
             if (res.token) {
                 dispatch(setAuthToken(res.token));
@@ -38,16 +38,16 @@ export const AddRecipe = () => {
             for (const ingredient of ingredients) {
                 await api.post(`/recipes/${res.recipe.id}/ingredients`, {
                     name: ingredient,
-                    quantity: 0 /* TODO: Make it so a user can add a quantity for each ingredient*/
+                    quantity: 0
                 });
             }
             for (const instruction of instructions) {
                 await api.post(`/recipes/${res.recipe.id}/instructions`, {
                     instruction: instruction,
-                    stepNumber: 0 /* TODO: Make it so a user can add a step number for each instruction*/
+                    stepNumber: 0
                 });
             }
-            navigate("/");
+            navigate("/view_recipes");
         } catch (error) {
             console.error("Error creating recipe:", error);
         }
@@ -62,14 +62,12 @@ export const AddRecipe = () => {
         }
     }
 
-    // Function to handle changes in ingredients
     const handleIngredientChange = (index, event) => {
         const values = [...ingredients];
         values[index] = event.target.value;
         setIngredients(values);
     };
 
-    // Function to handle adding more ingredient fields
     const handleAddIngredient = () => {
         setIngredients([...ingredients, ""]);
     };
@@ -79,68 +77,96 @@ export const AddRecipe = () => {
         setInstructions(values);
     };
 
-    // Function to handle adding more instruction fields
-    const handleAddInstruction= () => {
+    const handleAddInstruction = () => {
         setInstructions([...instructions, ""]);
     };
     return (
-        <div>
+        <div className="container">
             <h2>Create Recipe</h2>
+            <div><p>When creating an ingredient only press add ingredient when you need to add a new ingredient else you will have to fill in the ingredient or restart the form, the same goes for instructions</p></div>
             <form className="create-recipe-form" onSubmit={createRecipe}>
-                <input
-                    placeholder="Name"
-                    type="text"
-                    value={name}
-                    required
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <input
-                    placeholder="Prep Time"
-                    type="number"
-                    value={prepTime}
-                    required
-                    onChange={(e) => setPrepTime(parseFloat(e.target.value))}
-                />
-                <input
-                    placeholder="Cooking Time"
-                    type="number"
-                    value={cookingTime}
-                    required
-                    onChange={(e) => setCookingTime(parseFloat(e.target.value))}
-                />
-                <input
-                    placeholder="Serving #"
-                    type="number"
-                    value={servings}
-                    required
-                    onChange={(e) => setServings(parseInt(e.target.value, 10))}
-                />
-
-                {/* Inputs for ingredients */}
-                {ingredients.map((ingredient, index) => (
+                <div>
+                    <div><label>Name</label></div>
                     <input
-                        key={index}
-                        placeholder="Ingredient"
+                        placeholder="Name"
                         type="text"
-                        value={ingredient}
+                        value={name}
                         required
-                        onChange={(event) => handleIngredientChange(index, event)}
+                        onChange={(e) => setName(e.target.value)}
                     />
-                ))}
-                <button type="button" onClick={handleAddIngredient}>Add Ingredient</button>
-
-                {/* Inputs for instructions */}
-                {instructions.map((instruction, index) => (
+                    
+                </div>
+                <div>
+                    <div><label>Prep Time</label></div>
+                    
                     <input
-                        key={index}
-                        placeholder="Instruction"
-                        type="text"
-                        value={instruction}
+                        placeholder="Prep Time"
+                        type="number"
+                        value={prepTime}
                         required
-                        onChange={(event) => handleInstructionChange(index, event)}
+                        onChange={(e) => setPrepTime(parseFloat(e.target.value))}
                     />
-                ))}
-                <button type="button" onClick={handleAddInstruction}>Add Instruction</button>
+                </div>
+                <div>
+                    <div><label>Cooking Time</label></div>
+                    
+                    <input
+                        placeholder="Cooking Time"
+                        type="number"
+                        value={cookingTime}
+                        required
+                        onChange={(e) => setCookingTime(parseFloat(e.target.value))}
+                    />
+                </div>
+                <div>
+                    <div><label>Servings</label></div>
+                    
+                    <input
+                        placeholder="Serving #"
+                        type="number"
+                        value={servings}
+                        required
+                        onChange={(e) => setServings(parseInt(e.target.value, 10))}
+                    />
+                </div>
+
+                <div className="ingredients-input">
+                    {/* Inputs for ingredients */}
+                    {ingredients.map((ingredient, index) => (
+                        <input
+                            key={index}
+                            placeholder="Ingredient"
+                            type="text"
+                            value={ingredient}
+                            required
+                            onChange={(event) => handleIngredientChange(index, event)}
+                        />
+                    ))}
+                    <div className="ingredients-submit">
+                        <button className="add-ingredient-button" type="button" onClick={handleAddIngredient}>Add Ingredient</button>
+                    </div>
+                </div>
+
+
+                <div className="instructions-input">
+                    {/* Inputs for instructions */}
+                    {instructions.map((instruction, index) => (
+                        <input
+                            key={index}
+                            placeholder="Instruction"
+                            type="text"
+                            value={instruction}
+                            required
+                            onChange={(event) => handleInstructionChange(index, event)}
+                        />
+                    ))}
+                    <div className="instructions-submit">
+                        <button className="add-instruction-button" type="button" onClick={handleAddInstruction}>Add Instruction</button>
+                    </div>
+
+
+                </div>
+
 
                 <button type="submit" className="action-button">Submit</button>
             </form>

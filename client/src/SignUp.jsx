@@ -19,11 +19,10 @@ export const SignUp = () => {
       password,
       firstName,
       lastName,
-      // profileImageUrl: "/client/profile/profileImg/default.png"
     });
     dispatch(setAuthToken(res.token));
 
-    navigate("/");
+    navigate("/view_recipes");
   }
 
   return (

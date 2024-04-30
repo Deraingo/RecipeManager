@@ -8,8 +8,8 @@ function App() {
       <nav className="my-nav">{
         !authToken && (
           <>
-            <Link to="/sign_up">Create Account </Link>
-            <Link to="/login">Sign In</Link>
+            <Link className="action-button" to="/sign_up">Create Account </Link>
+            <Link className="action-button" to="/login">Sign In</Link>
           </>
         )
       }</nav>

@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export const Header = ({ user, logout }) => (
   <header className="header">
-    <Link to={""}><h2 className="title">Cuisine Concierge</h2></Link>
+    <Link to={"view_recipes"}><h2 className="title">Cuisine Concierge</h2></Link>
     <div className="links">
       <div className="dropdown">
         <button className="dropbtn">Recipes</button>

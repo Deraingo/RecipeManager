@@ -37,6 +37,22 @@ export const ViewRecipes = () => {
           console.error("Error fetching recipes:", error);
         }
     };
+    if(!recipes){
+        return(
+            <h1>Loading...</h1>
+        )
+    }
+    if(recipes == "" || recipes == null || recipes == undefined){
+        return(
+            <div className="container">
+                <p>
+                    it looks like you havent created any recipes! Press the button below to get started
+                </p>
+                <Link className="action-button" to={"/add_recipe"}> Create Recipe </Link>
+            </div>
+        );
+
+    }
     return(
         <div className="container">
             <div className="recipe-list">
@@ -57,7 +73,7 @@ export const ViewRecipes = () => {
                             {recipe.instructions.map((instruction, index) => (
                                 <p className="recipe-border-ingredients" key={index}>{instruction.instruction}</p>
                             ))}
-
+                            <Link className="action-button-recipes" to={`/delete_recipe/${recipe.id}`}>Delete</Link>
                         </div>
                     </li>
                 ))}

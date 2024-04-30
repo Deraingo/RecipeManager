@@ -20,7 +20,6 @@ export const Profile = () => {
           {user && <img src={user.profileImageUrl} alt="Profile" />}
           <Link className="action-button" to="change_password">Change Password</Link>
           {/* <Link className="action-button" to="change_profile_picture">Change Profile Picture</Link> */}
-          {/* ... rest of your profile component ... */}
           <Outlet />
         </div>
     );
