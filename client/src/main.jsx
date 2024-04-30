@@ -21,6 +21,9 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 import { ViewCookBook } from './CookBooks/ViewCookBook.jsx';
 import { DeleteCookbook } from './CookBooks/DeleteCookBook.jsx';
 import { EditCookBook } from './CookBooks/EditCookBook.jsx';
+import {DeleteRecipe} from './Recipes/DeleteRecipe.jsx';
+import { Index } from './Index.jsx';
+
 const router = createHashRouter([
   {
     path: "",
@@ -38,6 +41,10 @@ const router = createHashRouter([
           {
             path: "/view_recipes",
             element: <ViewRecipes />
+          },
+          {
+            path: "/delete_recipe/:id",
+            element: <DeleteRecipe />
           },
           {
             path: "/profile",
@@ -74,6 +81,10 @@ const router = createHashRouter([
             element: <EditCookBook />
           }
         ]
+      },
+      {
+        path: "/index",
+        element: <Index />
       },
       {
         path: "/login",

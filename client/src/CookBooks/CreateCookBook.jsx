@@ -63,8 +63,6 @@ export const CreateCookBook = () => {
         const shared = collaborators.length > 0;
         const userId = user.id;
         const name = cookbookName;
-
-        // Fetch user data for each collaborator
         const collaboratorData = await Promise.all(collaborators.map(async (email) => {
             const user = await api.get(`/users?email=${email}`);
             return user;
@@ -103,14 +101,8 @@ export const CreateCookBook = () => {
                     <span className="recipe-name">{recipe.name}</span>
                 </div>
             ))}
-            <h2>Collaborators</h2>
-            {collaborators && collaborators.map((user, index) => (
-                <div key={index}>
-                    <span>{user.email}</span>
-                </div>
-            ))}
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter collaborator's email" />
-            <button onClick={() => addCollaborator(email)} className="add-collaborator-button">Add Collaborator</button>
+            {/* <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter collaborator's email" /> */}
+            {/* <button onClick={() => addCollaborator(email)} className="add-collaborator-button">Add Collaborator</button> */}
             <div className="submit">
                 <button onClick={createCookBook} className="submit-button">Done</button>
             </div>

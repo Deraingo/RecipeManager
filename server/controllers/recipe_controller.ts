@@ -72,5 +72,17 @@ export const buildRecipeController = (recipeRepository: RecipeRepository) => {
             res.status(500).json({ error: "Failed to fetch instructions", message: error });
         }
     });
+    router.delete("/:id", async (req, res) =>{
+        try{
+            const id = parseInt(req.params.id, 10);
+            const recipe = await recipeRepository.getRecipesByUserId(id);
+            await recipeRepository.deleteRecipe(id);
+            res.json({message: "recipe deleted successfully"});
+            // console.log("deleted" + recipe?.name);
+        } catch (error){
+            console.error("error deleting recipe", error);
+            res.status(500).json({error: "Failed to delete recipe"});
+        }
+    });
     return router;
 }

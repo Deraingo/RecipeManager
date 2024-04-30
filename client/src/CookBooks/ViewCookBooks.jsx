@@ -29,6 +29,22 @@ export const ViewCookBooks = () => {
         }
     }
 
+    if (!cookBooks) {
+        return (
+            <h1>Loading...</h1>
+        );
+    }
+    else if (cookBooks == null || cookBooks == undefined || cookBooks == "") {
+        return (
+            <div className="container">
+                <p>
+                    It looks like you haven't made any cookbooks! Press the button below to get started!
+                </p>
+                <Link className="action-button" to={"/create_cookbook"}>Create Cookbook</Link>
+            </div>
+
+        );
+    }
     return (
         <div className="main-content">
             <h1>Cookbooks</h1>
@@ -49,7 +65,7 @@ export const ViewCookBooks = () => {
                         <Link className="action-button" to={`/delete_cookbook/${cookbook.id}`}>Delete</Link>
                     </div>
                 </div>
-                
+
             ))}
         </div>
     );

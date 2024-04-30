@@ -1,15 +1,66 @@
 .recipe-item {
-    width: 50%;
-    border: 2px solid black;
-    background-color: #FEFEFF;
-    margin: 20px;
-    display: block;
-  }
-  .recipe-border {
-    border-bottom: 1px solid #4DADF9;
-    padding-left: 30px;
-  }
-  .recipe-border-ingredients{
-    border-bottom: 1px solid #4DADF9;
-    padding-left: 80px;
-  }
+  width: 50%;
+  border: 2px solid black;
+  background-color: #FEFEFF;
+  margin: 20px;
+  padding-bottom: 15px;
+  display: block;
+}
+
+.recipe-border {
+  border-bottom: 1px solid #4DADF9;
+  padding-left: 30px;
+}
+
+.recipe-border-ingredients {
+  border-bottom: 1px solid #4DADF9;
+  padding-left: 80px;
+}
+
+.action-button-recipes {
+  padding: 10px;
+  background-color: #B19470;
+  color: white;
+  text-decoration: none;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.action-button-recipes:hover {
+  background-color: #76453B;
+}
+.ingredients-input{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.instruction-input{
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.add-ingredient-button{
+  padding: 5px;
+  background-color: #B19470;
+  color: white;
+  text-decoration: none;
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+}
+.add-instruction-button{
+  padding: 5px;
+  background-color: #B19470;
+  color: white;
+  text-decoration: none;
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+}
+.add-ingredient-button:hover{
+  background-color: #76453B;
+}
+.add-instruction-button:hover{
+  background-color: #76453B;
+}
+label{
+  
+}
